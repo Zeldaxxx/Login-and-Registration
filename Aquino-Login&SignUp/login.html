@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Login</title>
+    <link rel="stylesheet" href="style-reglog.css">
+    <style>@import url('https://fonts.googleapis.com/css?family=Poppins:400,700,900');</style>
+</head>
+<body>
+    <section class="content-container">
+        <h1 class="header">Student Login</h1>
+        <form action="login.php" class="reg-form" method="post">
+            <div class="text-box">
+                <label>Student Email</label>
+                <input type="email" name="studmail" placeholder="example@pup.edu.ph" required />
+            </div>
+            <div class="text-box">
+                <label>Password</label>
+                <input type="password" name="pass" placeholder="Enter your password" required />
+            </div>
+            <div class="submit_button">
+                <center><button type="submit" name="submit">Login</button></center>
+            </div>
+            <div class="links">
+                <h4>Don't have any account? <a href="registration.html">Sign Up</a></h4>
+            </div>
+        </form>
+    </section>
+</body>
+</html>
