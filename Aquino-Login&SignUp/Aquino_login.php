@@ -1,42 +1,38 @@
 <?php
-session_start();
+session_start(); // Start a session to store user data if needed
 
 $servername = "localhost";
 $username = "root";
 $password = "";
 $dbname = "student_database";
 
+// Establish connection
 $conn = mysqli_connect($servername, $username, $password, $dbname);
 
+// Check connection
 if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-if (isset($_POST['submit'])) {
-    if (!empty($_POST['studmail']) && !empty($_POST['pass'])) {
-        $studmail = $_POST['studmail'];
-        $pass = $_POST['pass'];
+// Process login attempt
+if(isset($_POST['submit'])) {
+    $studmail = $_POST['studmail'];
+    $pass = $_POST['pass'];
 
-        // Use prepared statements for security
-        $stmt = $conn->prepare("SELECT * FROM student_registration WHERE studmail = ? AND pass = ?");
-        $stmt->bind_param("ss", $studmail, $pass);
-        $stmt->execute();
-        $result = $stmt->get_result();
+    // Prepare SQL query
+    $sql_query = "SELECT * FROM student_registration WHERE studmail='$studmail' AND pass='$pass'";
+    $result = mysqli_query($conn, $sql_query);
 
-        if ($result->num_rows == 1) {
-            $user = $result->fetch_assoc();
-            $_SESSION['studmail'] = $user['studmail']; // Save only the email in session
-            $_SESSION['user'] = $user; // Save the entire user data in session
-            header("Location: Aquino_table.php");
-            exit();
-        } else {
-            echo "Invalid email or password.";
-        }
-
-        $stmt->close();
+    if (mysqli_num_rows($result) == 1) {
+        // Valid credentials, redirect to Aquino_table.php
+        header("Location: Aquino_table.php");
+        exit();
     } else {
-        echo "Please fill in both email and password.";
+        // Invalid credentials
+        echo "<script>alert('Invalid username or password'); window.location.href='login.html';</script>";
+        exit();
     }
 }
+
 mysqli_close($conn);
 ?>
